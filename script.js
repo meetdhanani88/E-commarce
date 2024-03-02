@@ -13,23 +13,58 @@ const products = [
 
 // Display initial product list
 displayProducts(products);
-
 function displayProducts(productsToShow) {
-    const productList = document.getElementById('product-list');
-    productList.innerHTML = '';
+  const productList = document.getElementById('product-list');
+  productList.innerHTML = '';
 
-    productsToShow.forEach(product => {
-        const productElement = document.createElement('div');
-        productElement.classList.add('product');
-        productElement.innerHTML = `<img src="${product.image}" alt="${product.name}">
-                                    <h3>${product.name}</h3>
-                                    <p>Size: ${product.size}</p>
-                                    <p>Price: ${product.price}</p>
-                                    <p>Quality: ${product.quality}</p>
-                                    <p>Category: ${product.category}</p>
-                                    <p>Color: ${product.color}</p>`;
-        productList.appendChild(productElement);
-    });
+  productsToShow.forEach(product => {
+      const productElement = document.createElement('div');
+      productElement.classList.add('product');
+      productElement.innerHTML = `
+          <img src="${product.image}" alt="${product.name}">
+          <h3>${product.name}</h3>
+          <p>Size: ${product.size}</p>
+          <p>Price: ${product.price}</p>
+          <p>Quality: ${product.quality}</p>
+          <p>Category: ${product.category}</p>
+          <p>Color: ${product.color}</p>
+          <button class="add-to-cart-button" onclick="addToCart('${product.name}', '${product.price}', '${product.size}', '${product.quality}', '${product.category}', '${product.color}', '${product.image}')">Add to Cart</button>`;
+      productList.appendChild(productElement);
+  });
+}
+
+function addToCart(name, price, size, quality, category, color, image) {
+  const cartItemsList = document.getElementById('cart-items-modal');
+  const cartItem = document.createElement('li');
+  cartItem.classList.add('cart-item');
+  cartItem.innerHTML = `
+  <img src="${image}" alt="${name}">
+      <span>Name: ${name}</span>
+      <span>Size: ${size}</span>
+      <span>Price: ${price}</span>
+      <span>Quality: ${quality}</span>
+      <span>Category: ${category}</span>
+      <span>Color: ${color}</span>
+
+  `;
+  cartItemsList.appendChild(cartItem);
+
+  // Show the cart modal
+  openCartModal();
+}
+
+function openCartModal() {
+  const modal = document.getElementById('cart-modal');
+  modal.style.display = 'block';
+}
+
+function closeCartModal() {
+  const modal = document.getElementById('cart-modal');
+  modal.style.display = 'none';
+
+  // Clear the cart modal content when closed
+  const cartItemsList = document.getElementById('cart-items-modal');
+  cartItemsList.innerHTML = '';
 }
 
 function filterProducts() {
